@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>เดอะ คริสปี้ คิง | ร่วมงานกับเรา</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 :root{
   --ink:#201415;
@@ -29,10 +30,10 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font-family:'IBM Plex Sans Thai','Noto Sans Thai',sans-serif;
+  font-family:'Prompt','Noto Sans Thai',sans-serif;
   -webkit-font-smoothing:antialiased;
 }
-h1,h2,h3,.display{font-family:'Kanit','IBM Plex Sans Thai',sans-serif;}
+h1,h2,h3,.display{font-family:'Prompt',sans-serif;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;}
 img,svg{display:block;}
@@ -47,7 +48,7 @@ img,svg{display:block;}
   border-bottom:1px solid var(--line);
 }
 .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:var(--maxw);margin:0 auto;}
-.brand{display:flex;align-items:center;gap:10px;font-family:'Kanit';font-weight:700;font-size:20px;color:var(--green-dark);}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Prompt';font-weight:700;font-size:20px;color:var(--green-dark);}
 .brand-mark{width:34px;height:34px;border-radius:10px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .nav-links{display:flex;gap:6px;align-items:center;}
 .nav-links a, .nav-links button.navlink{
@@ -81,7 +82,7 @@ img,svg{display:block;}
 .btn-ghost{background:transparent;border-color:var(--green);color:var(--green-dark);}
 .btn-ghost:hover{background:var(--green-pale);}
 .hero-stats{display:flex;gap:28px;margin-top:34px;flex-wrap:wrap;}
-.hero-stat b{display:block;font-family:'Kanit';font-size:26px;color:var(--green-dark);}
+.hero-stat b{display:block;font-family:'Prompt';font-size:26px;color:var(--green-dark);}
 .hero-stat span{font-size:13px;color:var(--ink-soft);}
 
 /* finder card - signature element */
@@ -111,7 +112,7 @@ img,svg{display:block;}
 .job-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;transition:.15s;}
 .job-card:hover{box-shadow:var(--shadow);border-color:var(--green);}
 .job-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;}
-.job-num{font-family:'Kanit';font-weight:600;color:var(--marigold-dark);font-size:13px;}
+.job-num{font-family:'Prompt';font-weight:600;color:var(--marigold-dark);font-size:13px;}
 .job-type{background:var(--green-pale);color:var(--green-dark);font-size:11.5px;font-weight:600;padding:4px 9px;border-radius:999px;white-space:nowrap;}
 .job-card h3{margin:0 0 6px;font-size:19px;}
 .job-salary{color:var(--green-dark);font-weight:600;font-size:15px;margin-bottom:12px;}
@@ -231,7 +232,7 @@ footer{border-top:1px solid var(--line);padding:36px 0;margin-top:20px;}
 .admin-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin:22px 0;}
 .admin-stats{display:flex;gap:10px;flex-wrap:wrap;}
 .admin-stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 16px;text-align:center;min-width:90px;}
-.admin-stat b{display:block;font-family:'Kanit';font-size:20px;color:var(--green-dark);}
+.admin-stat b{display:block;font-family:'Prompt';font-size:20px;color:var(--green-dark);}
 .admin-stat span{font-size:11px;color:var(--ink-soft);}
 .table-wrap{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;overflow-x:auto;}
 table{width:100%;border-collapse:collapse;min-width:760px;}
@@ -241,8 +242,20 @@ tr:last-child td{border-bottom:none;}
 td.note-cell{white-space:normal;max-width:220px;color:var(--ink-soft);}
 .row-del{background:none;border:none;color:var(--danger);font-size:12.5px;font-weight:600;padding:4px 8px;}
 .row-del:hover{text-decoration:underline;}
+.row-edit{background:none;border:none;color:var(--green-dark);font-size:12.5px;font-weight:600;padding:4px 8px;}
+.row-edit:hover{text-decoration:underline;}
 .empty-state{text-align:center;padding:60px 20px;color:var(--ink-soft);}
 .back-link{display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:13.5px;font-weight:500;opacity:.9;}
+.admin-tabs{display:flex;gap:4px;margin:22px 0 0;flex-wrap:wrap;border-bottom:1px solid var(--line);}
+.admin-tab{padding:11px 16px;border:none;background:none;font-weight:600;font-size:14px;color:var(--ink-soft);border-bottom:2px solid transparent;margin-bottom:-1px;}
+.admin-tab:hover{color:var(--green-dark);}
+.admin-tab.active{color:var(--green-dark);border-bottom-color:var(--green);}
+.admin-panel{display:none;padding-top:20px;}
+.admin-panel.active{display:block;}
+.admin-form{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;margin:0 0 18px;}
+.admin-form .form-grid{margin-bottom:0;}
+.chatlog-cell{white-space:normal;max-width:260px;color:var(--ink-soft);}
+select.inline-select{width:auto;min-width:120px;padding:6px 10px;font-size:12.5px;}
 </style>
 </head>
 <body>
@@ -443,36 +456,174 @@ td.note-cell{white-space:normal;max-width:220px;color:var(--ink-soft);}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
           กลับหน้าเว็บไซต์
         </button>
-        <h2>แดชบอร์ดใบสมัครงาน</h2>
+        <h2>แดชบอร์ดผู้ดูแลระบบ</h2>
         <span>เดอะ คริสปี้ คิง · ฝ่ายบุคคล</span>
       </div>
     </div>
   </div>
   <div class="container">
-    <div class="admin-toolbar">
-      <div class="admin-stats" id="adminStats"></div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <select id="adminFilter" style="width:auto;min-width:180px;"></select>
-        <button class="btn btn-ghost" id="adminRefresh" type="button">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-          รีเฟรช
-        </button>
-        <button class="btn btn-primary" id="adminExport" type="button">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-          ดาวน์โหลด Excel/CSV
-        </button>
+    <div class="admin-tabs" id="adminTabs">
+      <button class="admin-tab active" data-tab="applications" type="button">ใบสมัคร</button>
+      <button class="admin-tab" data-tab="positions" type="button">ตำแหน่งงาน</button>
+      <button class="admin-tab" data-tab="branches" type="button">สาขา</button>
+      <button class="admin-tab" data-tab="benefits" type="button">สวัสดิการ</button>
+      <button class="admin-tab" data-tab="chatlogs" type="button">ประวัติแชทบอท</button>
+    </div>
+
+    <!-- PANEL: APPLICATIONS -->
+    <div class="admin-panel active" id="adminPanel-applications">
+      <div class="admin-toolbar">
+        <div class="admin-stats" id="adminStats"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <select id="adminFilter" style="width:auto;min-width:180px;"></select>
+          <button class="btn btn-ghost" id="adminRefresh" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            รีเฟรช
+          </button>
+          <button class="btn btn-primary" id="adminExport" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+            ดาวน์โหลด Excel/CSV
+          </button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="adminTable">
+          <thead>
+            <tr>
+              <th>วันที่สมัคร</th><th>ชื่อ-นามสกุล</th><th>เบอร์โทร</th><th>อีเมล</th><th>ตำแหน่ง</th><th>สาขา</th><th>ประสบการณ์</th><th>หมายเหตุ</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="adminTbody"></tbody>
+        </table>
+        <div class="empty-state" id="adminEmpty" style="display:none;">ยังไม่มีใบสมัครเข้ามา</div>
       </div>
     </div>
-    <div class="table-wrap">
-      <table id="adminTable">
-        <thead>
-          <tr>
-            <th>วันที่สมัคร</th><th>ชื่อ-นามสกุล</th><th>เบอร์โทร</th><th>อีเมล</th><th>ตำแหน่ง</th><th>สาขา</th><th>ประสบการณ์</th><th>หมายเหตุ</th><th></th>
-          </tr>
-        </thead>
-        <tbody id="adminTbody"></tbody>
-      </table>
-      <div class="empty-state" id="adminEmpty" style="display:none;">ยังไม่มีใบสมัครเข้ามา</div>
+
+    <!-- PANEL: POSITIONS -->
+    <div class="admin-panel" id="adminPanel-positions">
+      <div class="admin-toolbar">
+        <span style="color:var(--ink-soft);font-size:13.5px;">จัดการตำแหน่งงานที่เปิดรับสมัคร</span>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <input type="file" id="posImportFile" accept=".xlsx" hidden>
+          <button class="btn btn-ghost" id="posImportBtn" type="button">นำเข้าจาก Excel</button>
+          <button class="btn btn-primary" id="posAddBtn" type="button">+ เพิ่มตำแหน่ง</button>
+        </div>
+      </div>
+      <div class="admin-form" id="posForm" hidden>
+        <div class="form-grid">
+          <div class="field"><label for="pf_title">ชื่อตำแหน่ง *</label><input type="text" id="pf_title"></div>
+          <div class="field"><label for="pf_type">ประเภทงาน *</label><input type="text" id="pf_type" placeholder="เต็มเวลา / พาร์ทไทม์"></div>
+          <div class="field"><label for="pf_salary">เงินเดือน *</label><input type="text" id="pf_salary" placeholder="12,000–15,000 บาท/เดือน"></div>
+          <div class="field"><label for="pf_requirements">คุณสมบัติ</label><input type="text" id="pf_requirements"></div>
+          <div class="field full"><label for="pf_duties">หน้าที่ความรับผิดชอบ (บรรทัดละ 1 ข้อ)</label><textarea id="pf_duties" rows="4"></textarea></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="posSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-ghost" id="posCancelBtn" type="button">ยกเลิก</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ตำแหน่ง</th><th>ประเภท</th><th>เงินเดือน</th><th>คุณสมบัติ</th><th></th></tr></thead>
+          <tbody id="posTbody"></tbody>
+        </table>
+        <div class="empty-state" id="posEmpty" style="display:none;">ยังไม่มีตำแหน่งงาน</div>
+      </div>
+    </div>
+
+    <!-- PANEL: BRANCHES -->
+    <div class="admin-panel" id="adminPanel-branches">
+      <div class="admin-toolbar">
+        <span style="color:var(--ink-soft);font-size:13.5px;">จัดการรายชื่อสาขา</span>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <input type="file" id="branchImportFile" accept=".xlsx" hidden>
+          <button class="btn btn-ghost" id="branchImportBtn" type="button">นำเข้าจาก Excel</button>
+          <button class="btn btn-primary" id="branchAddBtn" type="button">+ เพิ่มสาขา</button>
+        </div>
+      </div>
+      <div class="admin-form" id="branchForm" hidden>
+        <div class="form-grid">
+          <div class="field"><label for="bf_name">ชื่อสาขา *</label><input type="text" id="bf_name"></div>
+          <div class="field"><label for="bf_province">จังหวัด *</label><input type="text" id="bf_province"></div>
+          <div class="field full"><label for="bf_address">ที่อยู่ *</label><input type="text" id="bf_address"></div>
+          <div class="field"><label for="bf_phone">เบอร์โทร</label><input type="text" id="bf_phone"></div>
+          <div class="field"><label for="bf_hours">เวลาทำการ</label><input type="text" id="bf_hours" placeholder="06:00–23:00"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="branchSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-ghost" id="branchCancelBtn" type="button">ยกเลิก</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>สาขา</th><th>จังหวัด</th><th>ที่อยู่</th><th>เบอร์โทร</th><th>เวลาทำการ</th><th></th></tr></thead>
+          <tbody id="branchTbody"></tbody>
+        </table>
+        <div class="empty-state" id="branchEmpty" style="display:none;">ยังไม่มีสาขา</div>
+      </div>
+    </div>
+
+    <!-- PANEL: BENEFITS -->
+    <div class="admin-panel" id="adminPanel-benefits">
+      <div class="admin-toolbar">
+        <span style="color:var(--ink-soft);font-size:13.5px;">จัดการสวัสดิการพนักงาน</span>
+        <button class="btn btn-primary" id="benAddBtn" type="button">+ เพิ่มสวัสดิการ</button>
+      </div>
+      <div class="admin-form" id="benForm" hidden>
+        <div class="form-grid">
+          <div class="field"><label for="bnf_title">หัวข้อ *</label><input type="text" id="bnf_title"></div>
+          <div class="field full"><label for="bnf_desc">รายละเอียด</label><input type="text" id="bnf_desc"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="benSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-ghost" id="benCancelBtn" type="button">ยกเลิก</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>หัวข้อ</th><th>รายละเอียด</th><th></th></tr></thead>
+          <tbody id="benTbody"></tbody>
+        </table>
+        <div class="empty-state" id="benEmpty" style="display:none;">ยังไม่มีสวัสดิการ</div>
+      </div>
+    </div>
+
+    <!-- PANEL: CHAT LOGS -->
+    <div class="admin-panel" id="adminPanel-chatlogs">
+      <div class="admin-toolbar">
+        <div class="admin-stats" id="chatStats"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-ghost" id="chatRefreshBtn" type="button">รีเฟรช</button>
+          <button class="btn btn-primary" id="chatAddBtn" type="button">+ เพิ่มบันทึกเอง</button>
+        </div>
+      </div>
+      <div class="admin-form" id="chatForm" hidden>
+        <div class="form-grid">
+          <div class="field full"><label for="cf_question">คำถาม *</label><input type="text" id="cf_question"></div>
+          <div class="field full"><label for="cf_answer">คำตอบ</label><textarea id="cf_answer" rows="3"></textarea></div>
+          <div class="field"><label for="cf_category">ประเภทคำถาม</label><input type="text" id="cf_category" placeholder="เช่น เงินเดือน, สวัสดิการ"></div>
+          <div class="field">
+            <label for="cf_status">สถานะ</label>
+            <select id="cf_status">
+              <option value="ok">ตอบได้ปกติ</option>
+              <option value="wrong">ตอบผิดพลาด</option>
+              <option value="unanswered">ตอบไม่ได้</option>
+            </select>
+          </div>
+          <div class="field full"><label for="cf_note">หมายเหตุของแอดมิน</label><input type="text" id="cf_note"></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="chatSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-ghost" id="chatCancelBtn" type="button">ยกเลิก</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>วันที่</th><th>คำถาม</th><th>คำตอบ</th><th>ประเภท</th><th>สถานะ</th><th>หมายเหตุ</th><th></th></tr></thead>
+          <tbody id="chatTbody"></tbody>
+        </table>
+        <div class="empty-state" id="chatEmpty" style="display:none;">ยังไม่มีประวัติแชท</div>
+      </div>
     </div>
   </div>
 </div>
@@ -483,64 +634,9 @@ td.note-cell{white-space:normal;max-width:220px;color:var(--ink-soft);}
 /* ============================================================
    DATA
 ============================================================ */
-const POSITIONS = [
-  {
-    id:'crew', title:'พนักงานประจำร้าน (Crew)', type:'เต็มเวลา / พาร์ทไทม์',
-    salaryText:'12,000–15,000 บาท/เดือน + ค่าคอมมิชชั่น',
-    duties:['ต้อนรับลูกค้าและรับออเดอร์','จัดเตรียมและเสิร์ฟอาหาร','ดูแลความสะอาดหน้าร้าน','จัดเก็บวัตถุดิบตามมาตรฐาน'],
-    requirements:'วุฒิ ม.3 ขึ้นไป, บุคลิกดี ยิ้มแย้ม, ทำงานเป็นกะได้'
-  },
-  {
-    id:'cashier', title:'แคชเชียร์', type:'เต็มเวลา / พาร์ทไทม์',
-    salaryText:'12,000–14,000 บาท/เดือน',
-    duties:['รับชำระเงินและออกใบเสร็จ','ตรวจนับเงินสดต้นกะ-ปิดกะ','แนะนำเมนูและโปรโมชั่น','ดูแลความถูกต้องของออเดอร์'],
-    requirements:'วุฒิ ม.6 ขึ้นไป, ละเอียดรอบคอบ, ใช้เครื่อง POS ได้ (สอนงานให้)'
-  },
-  {
-    id:'asm', title:'ผู้ช่วยผู้จัดการสาขา', type:'เต็มเวลา',
-    salaryText:'18,000–25,000 บาท/เดือน',
-    duties:['ควบคุมดูแลทีมพนักงานประจำสาขา','บริหารสต๊อกวัตถุดิบและสั่งซื้อ','วางแผนและติดตามยอดขาย','ควบคุมมาตรฐานคุณภาพอาหารและบริการ'],
-    requirements:'ปวส./ปริญญาตรี, ประสบการณ์งานร้านอาหาร 1 ปีขึ้นไป, ภาวะผู้นำ'
-  },
-  {
-    id:'kitchen', title:'พนักงานครัว (ทอดไก่)', type:'เต็มเวลา',
-    salaryText:'13,000–16,000 บาท/เดือน',
-    duties:['ทอดไก่และปรุงอาหารตามสูตรมาตรฐาน','ควบคุมอุณหภูมิและเวลาทอดให้ได้คุณภาพ','ดูแลความสะอาดของครัวและอุปกรณ์','ตรวจสอบวัตถุดิบและวันหมดอายุ'],
-    requirements:'วุฒิ ม.3 ขึ้นไป, สุขภาพแข็งแรง ทนความร้อนได้, ผ่านการอบรมสุขอนามัยอาหาร (มีอบรมให้)'
-  },
-  {
-    id:'rider', title:'พนักงานขับรถส่งอาหาร (เดลิเวอรี่)', type:'เต็มเวลา',
-    salaryText:'14,000–18,000 บาท/เดือน + ค่าน้ำมัน',
-    duties:['จัดส่งอาหารให้ลูกค้าตามออเดอร์','ตรวจเช็คสภาพรถก่อน-หลังใช้งาน','ดูแลบรรจุภัณฑ์อาหารให้เรียบร้อยระหว่างจัดส่ง','ประสานงานกับหน้าร้านเรื่องออเดอร์'],
-    requirements:'มีใบขับขี่ประเภท 2 ขึ้นไป, ไม่มีประวัติอุบัติเหตุร้ายแรง'
-  }
-];
-
-const BENEFITS = [
-  {t:'ประกันสังคม', d:'คุ้มครองตั้งแต่วันแรกที่บรรจุเป็นพนักงานประจำ'},
-  {t:'ประกันสุขภาพกลุ่ม', d:'ครอบคลุม OPD/IPD สำหรับพนักงานระดับหัวหน้างานขึ้นไป'},
-  {t:'โบนัสประจำปี', d:'พิจารณาจากผลงานและผลประกอบการของบริษัท'},
-  {t:'วันหยุดพักร้อน', d:'6–12 วันต่อปี ตามอายุงาน'},
-  {t:'ส่วนลดพนักงาน', d:'ซื้ออาหารในร้านลด 15% ทุกสาขา'},
-  {t:'ทุนการศึกษาบุตร', d:'สำหรับพนักงานที่มีอายุงานครบ 1 ปีขึ้นไป'},
-  {t:'เงินช่วยเหลือฉุกเฉิน', d:'กรณีเจ็บป่วยหรือเหตุจำเป็นของครอบครัว'},
-  {t:'อบรมและเติบโตในสายงาน', d:'เส้นทางเลื่อนตำแหน่งชัดเจนจากพนักงานสู่ผู้จัดการ'}
-];
-
-const BRANCHES = [
-  {name:'สาขาสยามสแควร์', province:'กรุงเทพมหานคร', address:'ถ.พระราม 1 แขวงปทุมวัน เขตปทุมวัน', phone:'02-111-2201', hours:'06:00–23:00'},
-  {name:'สาขาลาดพร้าว', province:'กรุงเทพมหานคร', address:'ถ.ลาดพร้าว แขวงจอมพล เขตจตุจักร', phone:'02-111-2202', hours:'06:00–23:00'},
-  {name:'สาขาบางนา', province:'กรุงเทพมหานคร', address:'ถ.บางนา-ตราด แขวงบางนา เขตบางนา', phone:'02-111-2203', hours:'06:00–24:00'},
-  {name:'สาขารัตนาธิเบศร์', province:'นนทบุรี', address:'ถ.รัตนาธิเบศร์ ต.บางกระสอ อ.เมืองนนทบุรี', phone:'02-222-3301', hours:'06:00–23:00'},
-  {name:'สาขารังสิต คลอง 4', province:'ปทุมธานี', address:'ถ.พหลโยธิน ต.คลองสี่ อ.คลองหลวง', phone:'02-333-4401', hours:'06:00–23:00'},
-  {name:'สาขาศรีราชา', province:'ชลบุรี', address:'ถ.สุขุมวิท ต.ศรีราชา อ.ศรีราชา', phone:'038-444-5501', hours:'06:00–22:00'},
-  {name:'สาขาพัทยากลาง', province:'ชลบุรี', address:'ถ.พัทยาสาย 2 ต.หนองปรือ อ.บางละมุง', phone:'038-444-5502', hours:'06:00–24:00'},
-  {name:'สาขานิมมานเหมินท์', province:'เชียงใหม่', address:'ถ.นิมมานเหมินท์ ต.สุเทพ อ.เมืองเชียงใหม่', phone:'053-555-6601', hours:'07:00–22:00'},
-  {name:'สาขาเมืองขอนแก่น', province:'ขอนแก่น', address:'ถ.มิตรภาพ ต.ในเมือง อ.เมืองขอนแก่น', phone:'043-666-7701', hours:'06:00–22:00'},
-  {name:'สาขาเมืองนครราชสีมา', province:'นครราชสีมา', address:'ถ.มิตรภาพ ต.ในเมือง อ.เมืองนครราชสีมา', phone:'044-777-8801', hours:'06:00–22:00'},
-  {name:'สาขาหาดใหญ่', province:'สงขลา', address:'ถ.เพชรเกษม ต.หาดใหญ่ อ.หาดใหญ่', phone:'074-888-9901', hours:'07:00–22:00'},
-  {name:'สาขาเมืองภูเก็ต', province:'ภูเก็ต', address:'ถ.เจ้าฟ้า ต.ตลาดใหญ่ อ.เมืองภูเก็ต', phone:'076-999-1101', hours:'07:00–23:00'}
-];
+let POSITIONS = [];
+let BENEFITS = [];
+let BRANCHES = [];
 
 const COMPANY_NAME = 'เดอะ คริสปี้ คิง';
 const SUPABASE_URL = 'https://nztblqpxmlnczjmlyddu.supabase.co';
@@ -677,6 +773,81 @@ const SB_HEADERS = {
   'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
   'Content-Type': 'application/json'
 };
+
+/* ============================================================
+   SUPABASE: GENERIC CRUD
+============================================================ */
+async function sbSelect(table, order){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*` + (order ? `&order=${order}` : ''), {
+    headers: SB_HEADERS
+  });
+  if(!res.ok) throw new Error(`select ${table} failed`);
+  return await res.json();
+}
+async function sbInsert(table, row){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {...SB_HEADERS, 'Prefer': 'return=representation'},
+    body: JSON.stringify(row)
+  });
+  if(!res.ok) throw new Error(`insert ${table} failed`);
+  const rows = await res.json();
+  return rows[0];
+}
+async function sbInsertMany(table, rows){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: {...SB_HEADERS, 'Prefer': 'return=representation'},
+    body: JSON.stringify(rows)
+  });
+  if(!res.ok) throw new Error(`bulk insert ${table} failed`);
+  return await res.json();
+}
+async function sbUpdate(table, id, row){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    headers: {...SB_HEADERS, 'Prefer': 'return=representation'},
+    body: JSON.stringify(row)
+  });
+  if(!res.ok) throw new Error(`update ${table} failed`);
+  const rows = await res.json();
+  return rows[0];
+}
+async function sbDelete(table, id){
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: SB_HEADERS
+  });
+  if(!res.ok) throw new Error(`delete ${table} failed`);
+  return true;
+}
+
+/* ============================================================
+   CONTENT DATA: POSITIONS / BRANCHES / BENEFITS
+============================================================ */
+function rowToPosition(r){
+  return {id:r.id, title:r.title, type:r.type, salaryText:r.salary_text, duties: Array.isArray(r.duties) ? r.duties : [], requirements:r.requirements, sortOrder:r.sort_order};
+}
+function rowToBranch(r){
+  return {id:r.id, name:r.name, province:r.province, address:r.address, phone:r.phone, hours:r.hours, sortOrder:r.sort_order};
+}
+function rowToBenefit(r){
+  return {id:r.id, t:r.title, d:r.description, sortOrder:r.sort_order};
+}
+async function loadAllContentData(){
+  try{
+    const [posRows, branchRows, benRows] = await Promise.all([
+      sbSelect('positions', 'sort_order.asc'),
+      sbSelect('branches', 'sort_order.asc'),
+      sbSelect('benefits', 'sort_order.asc')
+    ]);
+    POSITIONS = posRows.map(rowToPosition);
+    BRANCHES = branchRows.map(rowToBranch);
+    BENEFITS = benRows.map(rowToBenefit);
+  }catch(e){
+    console.error('loadAllContentData error', e);
+  }
+}
 function rowToApplicant(r){
   return {
     id: r.id, submittedAt: r.submitted_at, name: r.name, phone: r.phone, email: r.email,
@@ -891,9 +1062,11 @@ async function sendChatMessage(){
     const reply = textBlocks.join('\n').trim() || 'ขออภัยค่ะ ตอนนี้น้องคริสปี้ตอบไม่ได้ ลองใหม่อีกครั้งนะคะ';
     appendMessage('bot', reply);
     chatMessages.push({role:'assistant', content:reply});
+    logChatMessage(text, reply, 'ok');
   }catch(err){
     removeTyping();
     appendMessage('bot', 'ขออภัยค่ะ เชื่อมต่อไม่สำเร็จ กรุณาลองใหม่อีกครั้ง');
+    logChatMessage(text, null, 'unanswered');
   }finally{
     document.getElementById('chatSend').disabled = false;
   }
@@ -956,6 +1129,7 @@ function enterAdmin(){
   document.getElementById('adminView').classList.add('active');
   populateAdminFilter();
   loadAdminData();
+  initAdminTabs();
 }
 function populateAdminFilter(){
   const sel = document.getElementById('adminFilter');
@@ -1040,14 +1214,419 @@ document.getElementById('adminExport').addEventListener('click', () => {
 });
 
 /* ============================================================
+   ADMIN: TABS
+============================================================ */
+const adminPanelLoaded = {applications:true};
+function initAdminTabs(){
+  if(initAdminTabs._done) return;
+  initAdminTabs._done = true;
+  document.querySelectorAll('.admin-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchAdminTab(tab.dataset.tab));
+  });
+}
+function switchAdminTab(name){
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.toggle('active', p.id === 'adminPanel-' + name));
+  if(!adminPanelLoaded[name]){
+    adminPanelLoaded[name] = true;
+    if(name === 'positions') loadPositionsAdmin();
+    else if(name === 'branches') loadBranchesAdmin();
+    else if(name === 'benefits') loadBenefitsAdmin();
+    else if(name === 'chatlogs') loadChatLogsAdmin();
+  }
+}
+
+/* ============================================================
+   ADMIN: EXCEL IMPORT HELPER
+============================================================ */
+function parseExcelFile(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try{
+        const data = new Uint8Array(e.target.result);
+        const wb = XLSX.read(data, {type:'array'});
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        resolve(XLSX.utils.sheet_to_json(sheet, {defval:''}));
+      }catch(err){ reject(err); }
+    };
+    reader.onerror = reject;
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+/* ============================================================
+   ADMIN: POSITIONS
+============================================================ */
+let posEditingId = null;
+async function loadPositionsAdmin(){
+  await loadAllContentData();
+  renderPositionsAdminTable();
+}
+function renderPositionsAdminTable(){
+  const tbody = document.getElementById('posTbody');
+  const empty = document.getElementById('posEmpty');
+  if(!POSITIONS.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = POSITIONS.map(p => `
+    <tr>
+      <td>${escapeHtml(p.title)}</td>
+      <td>${escapeHtml(p.type)}</td>
+      <td>${escapeHtml(p.salaryText)}</td>
+      <td>${escapeHtml(p.requirements || '—')}</td>
+      <td><button class="row-edit" data-id="${p.id}">แก้ไข</button><button class="row-del" data-id="${p.id}">ลบ</button></td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('.row-edit').forEach(btn => btn.addEventListener('click', () => openPositionForm(btn.dataset.id)));
+  tbody.querySelectorAll('.row-del').forEach(btn => btn.addEventListener('click', () => deletePositionRow(btn.dataset.id)));
+}
+function openPositionForm(id){
+  posEditingId = id || null;
+  const p = id ? POSITIONS.find(x => x.id === id) : null;
+  document.getElementById('pf_title').value = p ? p.title : '';
+  document.getElementById('pf_type').value = p ? p.type : '';
+  document.getElementById('pf_salary').value = p ? p.salaryText : '';
+  document.getElementById('pf_requirements').value = p ? (p.requirements || '') : '';
+  document.getElementById('pf_duties').value = p ? p.duties.join('\n') : '';
+  document.getElementById('posForm').hidden = false;
+}
+document.getElementById('posAddBtn').addEventListener('click', () => openPositionForm(null));
+document.getElementById('posCancelBtn').addEventListener('click', () => { document.getElementById('posForm').hidden = true; });
+document.getElementById('posSaveBtn').addEventListener('click', async () => {
+  const title = document.getElementById('pf_title').value.trim();
+  const type = document.getElementById('pf_type').value.trim();
+  const salaryText = document.getElementById('pf_salary').value.trim();
+  const requirements = document.getElementById('pf_requirements').value.trim();
+  const duties = document.getElementById('pf_duties').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!title || !type || !salaryText){ showToast('กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบ', true); return; }
+  try{
+    if(posEditingId){
+      await sbUpdate('positions', posEditingId, {title, type, salary_text:salaryText, requirements, duties});
+      showToast('แก้ไขตำแหน่งงานแล้ว');
+    }else{
+      const id = 'pos_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+      const maxOrder = POSITIONS.reduce((m,x)=>Math.max(m,x.sortOrder||0),0);
+      await sbInsert('positions', {id, title, type, salary_text:salaryText, requirements, duties, sort_order:maxOrder+1});
+      showToast('เพิ่มตำแหน่งงานแล้ว');
+    }
+    document.getElementById('posForm').hidden = true;
+    await loadAllContentData();
+    renderPositionsAdminTable();
+    populateAdminFilter();
+    populateFormSelects();
+  }catch(e){
+    showToast('บันทึกไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+});
+async function deletePositionRow(id){
+  if(!confirm('ยืนยันลบตำแหน่งงานนี้?')) return;
+  try{
+    await sbDelete('positions', id);
+    showToast('ลบตำแหน่งงานแล้ว');
+    await loadAllContentData();
+    renderPositionsAdminTable();
+    populateAdminFilter();
+    populateFormSelects();
+  }catch(e){
+    showToast('ลบไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+}
+document.getElementById('posImportBtn').addEventListener('click', () => document.getElementById('posImportFile').click());
+document.getElementById('posImportFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const rows = await parseExcelFile(file);
+    const maxOrder = POSITIONS.reduce((m,x)=>Math.max(m,x.sortOrder||0),0);
+    const newRows = rows.map((r,i) => ({
+      id: 'pos_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6) + i,
+      title: String(r['ชื่อตำแหน่ง']||'').trim(),
+      type: String(r['ประเภทงาน']||'').trim(),
+      salary_text: String(r['เงินเดือน']||'').trim(),
+      duties: String(r['หน้าที่']||'').split(';').map(s=>s.trim()).filter(Boolean),
+      requirements: String(r['คุณสมบัติ']||'').trim(),
+      sort_order: maxOrder + i + 1
+    })).filter(r => r.title);
+    if(!newRows.length){ showToast('ไม่พบข้อมูลที่นำเข้าได้ ตรวจสอบหัวคอลัมน์: ชื่อตำแหน่ง, ประเภทงาน, เงินเดือน, หน้าที่, คุณสมบัติ', true); return; }
+    await sbInsertMany('positions', newRows);
+    showToast(`นำเข้าตำแหน่งงาน ${newRows.length} รายการแล้ว`);
+    await loadAllContentData();
+    renderPositionsAdminTable();
+    populateAdminFilter();
+    populateFormSelects();
+  }catch(err){
+    showToast('นำเข้าไฟล์ไม่สำเร็จ ตรวจสอบรูปแบบไฟล์', true);
+  }finally{
+    e.target.value = '';
+  }
+});
+
+/* ============================================================
+   ADMIN: BRANCHES
+============================================================ */
+let branchEditingId = null;
+async function loadBranchesAdmin(){
+  await loadAllContentData();
+  renderBranchesAdminTable();
+}
+function renderBranchesAdminTable(){
+  const tbody = document.getElementById('branchTbody');
+  const empty = document.getElementById('branchEmpty');
+  if(!BRANCHES.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = BRANCHES.map(b => `
+    <tr>
+      <td>${escapeHtml(b.name)}</td>
+      <td>${escapeHtml(b.province)}</td>
+      <td>${escapeHtml(b.address)}</td>
+      <td>${escapeHtml(b.phone || '—')}</td>
+      <td>${escapeHtml(b.hours || '—')}</td>
+      <td><button class="row-edit" data-id="${b.id}">แก้ไข</button><button class="row-del" data-id="${b.id}">ลบ</button></td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('.row-edit').forEach(btn => btn.addEventListener('click', () => openBranchForm(btn.dataset.id)));
+  tbody.querySelectorAll('.row-del').forEach(btn => btn.addEventListener('click', () => deleteBranchRow(btn.dataset.id)));
+}
+function openBranchForm(id){
+  branchEditingId = id || null;
+  const b = id ? BRANCHES.find(x => x.id === id) : null;
+  document.getElementById('bf_name').value = b ? b.name : '';
+  document.getElementById('bf_province').value = b ? b.province : '';
+  document.getElementById('bf_address').value = b ? b.address : '';
+  document.getElementById('bf_phone').value = b ? (b.phone || '') : '';
+  document.getElementById('bf_hours').value = b ? (b.hours || '') : '';
+  document.getElementById('branchForm').hidden = false;
+}
+document.getElementById('branchAddBtn').addEventListener('click', () => openBranchForm(null));
+document.getElementById('branchCancelBtn').addEventListener('click', () => { document.getElementById('branchForm').hidden = true; });
+document.getElementById('branchSaveBtn').addEventListener('click', async () => {
+  const name = document.getElementById('bf_name').value.trim();
+  const province = document.getElementById('bf_province').value.trim();
+  const address = document.getElementById('bf_address').value.trim();
+  const phone = document.getElementById('bf_phone').value.trim();
+  const hours = document.getElementById('bf_hours').value.trim();
+  if(!name || !province || !address){ showToast('กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบ', true); return; }
+  try{
+    if(branchEditingId){
+      await sbUpdate('branches', branchEditingId, {name, province, address, phone, hours});
+      showToast('แก้ไขสาขาแล้ว');
+    }else{
+      const maxOrder = BRANCHES.reduce((m,x)=>Math.max(m,x.sortOrder||0),0);
+      await sbInsert('branches', {name, province, address, phone, hours, sort_order:maxOrder+1});
+      showToast('เพิ่มสาขาแล้ว');
+    }
+    document.getElementById('branchForm').hidden = true;
+    await loadAllContentData();
+    renderBranchesAdminTable();
+    populateFormSelects();
+  }catch(e){
+    showToast('บันทึกไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+});
+async function deleteBranchRow(id){
+  if(!confirm('ยืนยันลบสาขานี้?')) return;
+  try{
+    await sbDelete('branches', id);
+    showToast('ลบสาขาแล้ว');
+    await loadAllContentData();
+    renderBranchesAdminTable();
+    populateFormSelects();
+  }catch(e){
+    showToast('ลบไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+}
+document.getElementById('branchImportBtn').addEventListener('click', () => document.getElementById('branchImportFile').click());
+document.getElementById('branchImportFile').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  try{
+    const rows = await parseExcelFile(file);
+    const maxOrder = BRANCHES.reduce((m,x)=>Math.max(m,x.sortOrder||0),0);
+    const newRows = rows.map((r,i) => ({
+      name: String(r['ชื่อสาขา']||'').trim(),
+      province: String(r['จังหวัด']||'').trim(),
+      address: String(r['ที่อยู่']||'').trim(),
+      phone: String(r['เบอร์โทร']||'').trim(),
+      hours: String(r['เวลาทำการ']||'').trim(),
+      sort_order: maxOrder + i + 1
+    })).filter(r => r.name);
+    if(!newRows.length){ showToast('ไม่พบข้อมูลที่นำเข้าได้ ตรวจสอบหัวคอลัมน์: ชื่อสาขา, จังหวัด, ที่อยู่, เบอร์โทร, เวลาทำการ', true); return; }
+    await sbInsertMany('branches', newRows);
+    showToast(`นำเข้าสาขา ${newRows.length} รายการแล้ว`);
+    await loadAllContentData();
+    renderBranchesAdminTable();
+    populateFormSelects();
+  }catch(err){
+    showToast('นำเข้าไฟล์ไม่สำเร็จ ตรวจสอบรูปแบบไฟล์', true);
+  }finally{
+    e.target.value = '';
+  }
+});
+
+/* ============================================================
+   ADMIN: BENEFITS
+============================================================ */
+let benEditingId = null;
+async function loadBenefitsAdmin(){
+  await loadAllContentData();
+  renderBenefitsAdminTable();
+}
+function renderBenefitsAdminTable(){
+  const tbody = document.getElementById('benTbody');
+  const empty = document.getElementById('benEmpty');
+  if(!BENEFITS.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = BENEFITS.map(b => `
+    <tr>
+      <td>${escapeHtml(b.t)}</td>
+      <td>${escapeHtml(b.d || '—')}</td>
+      <td><button class="row-edit" data-id="${b.id}">แก้ไข</button><button class="row-del" data-id="${b.id}">ลบ</button></td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('.row-edit').forEach(btn => btn.addEventListener('click', () => openBenefitForm(btn.dataset.id)));
+  tbody.querySelectorAll('.row-del').forEach(btn => btn.addEventListener('click', () => deleteBenefitRow(btn.dataset.id)));
+}
+function openBenefitForm(id){
+  benEditingId = id || null;
+  const b = id ? BENEFITS.find(x => x.id === id) : null;
+  document.getElementById('bnf_title').value = b ? b.t : '';
+  document.getElementById('bnf_desc').value = b ? (b.d || '') : '';
+  document.getElementById('benForm').hidden = false;
+}
+document.getElementById('benAddBtn').addEventListener('click', () => openBenefitForm(null));
+document.getElementById('benCancelBtn').addEventListener('click', () => { document.getElementById('benForm').hidden = true; });
+document.getElementById('benSaveBtn').addEventListener('click', async () => {
+  const title = document.getElementById('bnf_title').value.trim();
+  const description = document.getElementById('bnf_desc').value.trim();
+  if(!title){ showToast('กรุณากรอกหัวข้อ', true); return; }
+  try{
+    if(benEditingId){
+      await sbUpdate('benefits', benEditingId, {title, description});
+      showToast('แก้ไขสวัสดิการแล้ว');
+    }else{
+      const maxOrder = BENEFITS.reduce((m,x)=>Math.max(m,x.sortOrder||0),0);
+      await sbInsert('benefits', {title, description, sort_order:maxOrder+1});
+      showToast('เพิ่มสวัสดิการแล้ว');
+    }
+    document.getElementById('benForm').hidden = true;
+    await loadAllContentData();
+    renderBenefitsAdminTable();
+  }catch(e){
+    showToast('บันทึกไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+});
+async function deleteBenefitRow(id){
+  if(!confirm('ยืนยันลบสวัสดิการนี้?')) return;
+  try{
+    await sbDelete('benefits', id);
+    showToast('ลบสวัสดิการแล้ว');
+    await loadAllContentData();
+    renderBenefitsAdminTable();
+  }catch(e){
+    showToast('ลบไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+}
+
+/* ============================================================
+   ADMIN: CHAT LOGS
+============================================================ */
+let chatLogs = [];
+let chatEditingId = null;
+async function loadChatLogsAdmin(){
+  document.getElementById('chatTbody').innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);">กำลังโหลดข้อมูล...</td></tr>`;
+  try{
+    chatLogs = await sbSelect('chat_logs', 'created_at.desc');
+  }catch(e){
+    chatLogs = [];
+  }
+  renderChatLogsAdminTable();
+}
+function renderChatLogsAdminTable(){
+  const tbody = document.getElementById('chatTbody');
+  const empty = document.getElementById('chatEmpty');
+  document.getElementById('chatStats').innerHTML = `
+    <div class="admin-stat"><b>${chatLogs.length}</b><span>บทสนทนาทั้งหมด</span></div>
+    <div class="admin-stat"><b>${chatLogs.filter(c=>c.status==='wrong').length}</b><span>ตอบผิดพลาด</span></div>
+    <div class="admin-stat"><b>${chatLogs.filter(c=>c.status==='unanswered').length}</b><span>ตอบไม่ได้</span></div>
+  `;
+  if(!chatLogs.length){ tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  const statusLabel = {ok:'ตอบได้ปกติ', wrong:'ตอบผิดพลาด', unanswered:'ตอบไม่ได้'};
+  tbody.innerHTML = chatLogs.map(c => `
+    <tr>
+      <td>${fmtDate(c.created_at)}</td>
+      <td class="chatlog-cell">${escapeHtml(c.question)}</td>
+      <td class="chatlog-cell">${escapeHtml(c.answer || '—')}</td>
+      <td>${escapeHtml(c.category || '—')}</td>
+      <td>${escapeHtml(statusLabel[c.status] || c.status)}</td>
+      <td class="chatlog-cell">${escapeHtml(c.note || '—')}</td>
+      <td><button class="row-edit" data-id="${c.id}">แก้ไข</button><button class="row-del" data-id="${c.id}">ลบ</button></td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('.row-edit').forEach(btn => btn.addEventListener('click', () => openChatForm(btn.dataset.id)));
+  tbody.querySelectorAll('.row-del').forEach(btn => btn.addEventListener('click', () => deleteChatLogRow(btn.dataset.id)));
+}
+function openChatForm(id){
+  chatEditingId = id || null;
+  const c = id ? chatLogs.find(x => x.id === id) : null;
+  document.getElementById('cf_question').value = c ? c.question : '';
+  document.getElementById('cf_answer').value = c ? (c.answer || '') : '';
+  document.getElementById('cf_category').value = c ? (c.category || '') : '';
+  document.getElementById('cf_status').value = c ? c.status : 'ok';
+  document.getElementById('cf_note').value = c ? (c.note || '') : '';
+  document.getElementById('chatForm').hidden = false;
+}
+document.getElementById('chatAddBtn').addEventListener('click', () => openChatForm(null));
+document.getElementById('chatCancelBtn').addEventListener('click', () => { document.getElementById('chatForm').hidden = true; });
+document.getElementById('chatSaveBtn').addEventListener('click', async () => {
+  const question = document.getElementById('cf_question').value.trim();
+  const answer = document.getElementById('cf_answer').value.trim();
+  const category = document.getElementById('cf_category').value.trim();
+  const status = document.getElementById('cf_status').value;
+  const note = document.getElementById('cf_note').value.trim();
+  if(!question){ showToast('กรุณากรอกคำถาม', true); return; }
+  try{
+    if(chatEditingId){
+      await sbUpdate('chat_logs', chatEditingId, {question, answer: answer||null, category: category||null, status, note: note||null});
+      showToast('แก้ไขบันทึกแล้ว');
+    }else{
+      await sbInsert('chat_logs', {question, answer: answer||null, category: category||null, status, note: note||null});
+      showToast('เพิ่มบันทึกแล้ว');
+    }
+    document.getElementById('chatForm').hidden = true;
+    await loadChatLogsAdmin();
+  }catch(e){
+    showToast('บันทึกไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+});
+async function deleteChatLogRow(id){
+  if(!confirm('ยืนยันลบบันทึกนี้?')) return;
+  try{
+    await sbDelete('chat_logs', id);
+    showToast('ลบบันทึกแล้ว');
+    await loadChatLogsAdmin();
+  }catch(e){
+    showToast('ลบไม่สำเร็จ กรุณาลองใหม่', true);
+  }
+}
+document.getElementById('chatRefreshBtn').addEventListener('click', loadChatLogsAdmin);
+function logChatMessage(question, answer, status){
+  sbInsert('chat_logs', {question, answer, status}).catch(e => console.error('log chat error', e));
+}
+
+/* ============================================================
    INIT
 ============================================================ */
-renderJobs();
-renderBenefits();
-renderProvinceChips();
-renderBranchFilter();
-renderBranchList(null);
-populateFormSelects();
+(async function init(){
+  document.getElementById('jobsGrid').innerHTML = '<p style="color:var(--ink-soft);">กำลังโหลดข้อมูล...</p>';
+  await loadAllContentData();
+  renderJobs();
+  renderBenefits();
+  renderProvinceChips();
+  renderBranchFilter();
+  renderBranchList(null);
+  populateFormSelects();
+})();
 </script>
 </body>
 </html>
