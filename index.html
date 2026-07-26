@@ -257,6 +257,12 @@ td.note-cell{white-space:normal;max-width:220px;color:var(--ink-soft);}
 .admin-form .form-grid{margin-bottom:0;}
 .chatlog-cell{white-space:normal;max-width:260px;color:var(--ink-soft);}
 select.inline-select{width:auto;min-width:120px;padding:6px 10px;font-size:12.5px;}
+.btn-success{background:#1B7A3D;color:#fff;}
+.btn-success:hover{background:#155C2E;}
+.btn-danger-outline{background:transparent;border-color:var(--danger);color:var(--danger);}
+.btn-danger-outline:hover{background:var(--danger);color:#fff;}
+#adminPanel-positions table, #adminPanel-branches table, #adminPanel-benefits table, #adminPanel-chatlogs table{min-width:0;}
+#adminPanel-positions td, #adminPanel-branches td, #adminPanel-benefits td, #adminPanel-chatlogs td{white-space:normal;}
 </style>
 </head>
 <body>
@@ -519,8 +525,8 @@ select.inline-select{width:auto;min-width:120px;padding:6px 10px;font-size:12.5p
           <div class="field full"><label for="pf_duties">หน้าที่ความรับผิดชอบ (บรรทัดละ 1 ข้อ)</label><textarea id="pf_duties" rows="4"></textarea></div>
         </div>
         <div class="form-actions">
-          <button class="btn btn-primary" id="posSaveBtn" type="button">บันทึก</button>
-          <button class="btn btn-ghost" id="posCancelBtn" type="button">ยกเลิก</button>
+          <button class="btn btn-success" id="posSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-danger-outline" id="posCancelBtn" type="button">ยกเลิก</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -551,8 +557,8 @@ select.inline-select{width:auto;min-width:120px;padding:6px 10px;font-size:12.5p
           <div class="field"><label for="bf_hours">เวลาทำการ</label><input type="text" id="bf_hours" placeholder="06:00–23:00"></div>
         </div>
         <div class="form-actions">
-          <button class="btn btn-primary" id="branchSaveBtn" type="button">บันทึก</button>
-          <button class="btn btn-ghost" id="branchCancelBtn" type="button">ยกเลิก</button>
+          <button class="btn btn-success" id="branchSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-danger-outline" id="branchCancelBtn" type="button">ยกเลิก</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -576,8 +582,8 @@ select.inline-select{width:auto;min-width:120px;padding:6px 10px;font-size:12.5p
           <div class="field full"><label for="bnf_desc">รายละเอียด</label><input type="text" id="bnf_desc"></div>
         </div>
         <div class="form-actions">
-          <button class="btn btn-primary" id="benSaveBtn" type="button">บันทึก</button>
-          <button class="btn btn-ghost" id="benCancelBtn" type="button">ยกเลิก</button>
+          <button class="btn btn-success" id="benSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-danger-outline" id="benCancelBtn" type="button">ยกเลิก</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -614,8 +620,8 @@ select.inline-select{width:auto;min-width:120px;padding:6px 10px;font-size:12.5p
           <div class="field full"><label for="cf_note">หมายเหตุของแอดมิน</label><input type="text" id="cf_note"></div>
         </div>
         <div class="form-actions">
-          <button class="btn btn-primary" id="chatSaveBtn" type="button">บันทึก</button>
-          <button class="btn btn-ghost" id="chatCancelBtn" type="button">ยกเลิก</button>
+          <button class="btn btn-success" id="chatSaveBtn" type="button">บันทึก</button>
+          <button class="btn btn-danger-outline" id="chatCancelBtn" type="button">ยกเลิก</button>
         </div>
       </div>
       <div class="table-wrap">
