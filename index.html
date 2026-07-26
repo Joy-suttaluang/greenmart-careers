@@ -136,6 +136,7 @@ select, input, textarea{
   font-family:inherit;font-size:14.5px;padding:11px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);width:100%;
 }
 select:focus, input:focus, textarea:focus{outline:2px solid var(--green);outline-offset:1px;border-color:var(--green);}
+input[readonly], textarea[readonly]{background:var(--bg);color:var(--ink-soft);cursor:not-allowed;}
 .branch-toolbar select{width:auto;min-width:200px;}
 .branch-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
 @media(max-width:860px){.branch-list{grid-template-columns:repeat(2,1fr);}}
@@ -600,7 +601,7 @@ select.inline-select{width:auto;min-width:120px;padding:6px 10px;font-size:12.5p
       <div class="admin-form" id="chatForm" hidden>
         <div class="form-grid">
           <div class="field full"><label for="cf_question">คำถาม *</label><input type="text" id="cf_question"></div>
-          <div class="field full"><label for="cf_answer">คำตอบ</label><textarea id="cf_answer" rows="3"></textarea></div>
+          <div class="field full"><label for="cf_answer">คำตอบ <small id="cf_answer_hint" style="font-weight:400;color:var(--ink-soft);"></small></label><textarea id="cf_answer" rows="3"></textarea></div>
           <div class="field"><label for="cf_category">ประเภทคำถาม</label><input type="text" id="cf_category" placeholder="เช่น เงินเดือน, สวัสดิการ"></div>
           <div class="field">
             <label for="cf_status">สถานะ</label>
@@ -1571,6 +1572,8 @@ function openChatForm(id){
   const c = id ? chatLogs.find(x => x.id === id) : null;
   document.getElementById('cf_question').value = c ? c.question : '';
   document.getElementById('cf_answer').value = c ? (c.answer || '') : '';
+  document.getElementById('cf_answer').readOnly = !!id;
+  document.getElementById('cf_answer_hint').textContent = id ? '(แก้ไขไม่ได้ เพื่อรักษาความถูกต้องของบันทึก)' : '';
   document.getElementById('cf_category').value = c ? (c.category || '') : '';
   document.getElementById('cf_status').value = c ? c.status : 'ok';
   document.getElementById('cf_note').value = c ? (c.note || '') : '';
@@ -1587,7 +1590,7 @@ document.getElementById('chatSaveBtn').addEventListener('click', async () => {
   if(!question){ showToast('กรุณากรอกคำถาม', true); return; }
   try{
     if(chatEditingId){
-      await sbUpdate('chat_logs', chatEditingId, {question, answer: answer||null, category: category||null, status, note: note||null});
+      await sbUpdate('chat_logs', chatEditingId, {question, category: category||null, status, note: note||null});
       showToast('แก้ไขบันทึกแล้ว');
     }else{
       await sbInsert('chat_logs', {question, answer: answer||null, category: category||null, status, note: note||null});
