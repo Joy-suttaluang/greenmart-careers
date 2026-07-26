@@ -543,6 +543,8 @@ const BRANCHES = [
 ];
 
 const COMPANY_NAME = 'เดอะ คริสปี้ คิง';
+const SUPABASE_URL = 'https://nztblqpxmlnczjmlyddu.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56dGJscXB4bWxuY3pqbWx5ZGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUwNTA3NDgsImV4cCI6MjEwMDYyNjc0OH0.qdNm1ftaFqqkgqOAwXNFdDsF5YPY_8anqjceOJdBypE';
 let currentPositionFilter = null;
 
 /* ============================================================
@@ -670,29 +672,73 @@ function populateFormSelects(){
     BRANCHES.map(b => `<option value="${escapeHtml(b.name)}">${escapeHtml(b.name)} (${escapeHtml(b.province)})</option>`).join('');
 }
 
+const SB_HEADERS = {
+  'apikey': SUPABASE_ANON_KEY,
+  'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+  'Content-Type': 'application/json'
+};
+function rowToApplicant(r){
+  return {
+    id: r.id, submittedAt: r.submitted_at, name: r.name, phone: r.phone, email: r.email,
+    positionId: r.position_id, positionTitle: r.position_title, branch: r.branch,
+    experience: r.experience, note: r.note
+  };
+}
 async function getApplications(){
   try{
-    if(window.storage){
-      const res = await window.storage.get('applications', true);
-      return res && res.value ? JSON.parse(res.value) : [];
-    }
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/applications?select=*&order=submitted_at.desc`, {
+      headers: SB_HEADERS
+    });
+    if(!res.ok) throw new Error('fetch failed');
+    const rows = await res.json();
+    return rows.map(rowToApplicant);
+  }catch(e){
+    console.error('getApplications error', e);
     const raw = localStorage.getItem('gm_applications');
     return raw ? JSON.parse(raw) : [];
-  }catch(e){
-    return [];
   }
 }
-async function saveApplications(list){
+async function addApplication(applicant){
   try{
-    if(window.storage){
-      const res = await window.storage.set('applications', JSON.stringify(list), true);
-      return !!res;
-    }
-    localStorage.setItem('gm_applications', JSON.stringify(list));
-    return true;
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/applications`, {
+      method: 'POST',
+      headers: {...SB_HEADERS, 'Prefer': 'return=minimal'},
+      body: JSON.stringify({
+        id: applicant.id, submitted_at: applicant.submittedAt, name: applicant.name,
+        phone: applicant.phone, email: applicant.email || null, position_id: applicant.positionId,
+        position_title: applicant.positionTitle, branch: applicant.branch,
+        experience: applicant.experience || null, note: applicant.note || null
+      })
+    });
+    if(res.ok) return true;
+    throw new Error('insert failed');
   }catch(e){
-    console.error('storage set error', e);
-    return false;
+    console.error('addApplication error', e);
+    try{
+      const raw = localStorage.getItem('gm_applications');
+      const list = raw ? JSON.parse(raw) : [];
+      list.unshift(applicant);
+      localStorage.setItem('gm_applications', JSON.stringify(list));
+      return true;
+    }catch(e2){ return false; }
+  }
+}
+async function deleteApplication(id){
+  try{
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/applications?id=eq.${encodeURIComponent(id)}`, {
+      method: 'DELETE',
+      headers: SB_HEADERS
+    });
+    if(res.ok) return true;
+    throw new Error('delete failed');
+  }catch(e){
+    console.error('deleteApplication error', e);
+    try{
+      const raw = localStorage.getItem('gm_applications');
+      const list = raw ? JSON.parse(raw).filter(a => a.id !== id) : [];
+      localStorage.setItem('gm_applications', JSON.stringify(list));
+      return true;
+    }catch(e2){ return false; }
   }
 }
 
@@ -728,11 +774,9 @@ document.getElementById('applyForm').addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
   submitBtn.textContent = 'กำลังส่ง...';
   try{
-    const list = await getApplications();
-    list.unshift(applicant);
-    const ok = await saveApplications(list);
+    const ok = await addApplication(applicant);
     if(ok){
-      showToast('ส่งใบสมัครเรียบร้อยแล้ว ขอบคุณที่สนใจร่วมงานกับเรา 🌿');
+      showToast('ส่งใบสมัครเรียบร้อยแล้ว ขอบคุณที่สนใจร่วมงานกับเรา 🍗');
       e.target.reset();
     }else{
       showToast('ส่งใบสมัครไม่สำเร็จ กรุณาลองใหม่อีกครั้ง', true);
@@ -960,9 +1004,9 @@ function renderAdminTable(filterPositionId){
   tbody.querySelectorAll('.row-del').forEach(btn => {
     btn.addEventListener('click', async () => {
       if(!confirm('ยืนยันลบใบสมัครนี้?')) return;
-      adminData = adminData.filter(a => a.id !== btn.dataset.id);
-      const ok = await saveApplications(adminData);
+      const ok = await deleteApplication(btn.dataset.id);
       if(ok){
+        adminData = adminData.filter(a => a.id !== btn.dataset.id);
         showToast('ลบใบสมัครแล้ว');
         renderAdminTable(document.getElementById('adminFilter').value);
       }else{
