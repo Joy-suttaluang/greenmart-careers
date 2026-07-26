@@ -1315,6 +1315,7 @@ document.getElementById('posSaveBtn').addEventListener('click', async () => {
     renderPositionsAdminTable();
     populateAdminFilter();
     populateFormSelects();
+    renderJobs();
   }catch(e){
     showToast('บันทึกไม่สำเร็จ กรุณาลองใหม่', true);
   }
@@ -1328,6 +1329,7 @@ async function deletePositionRow(id){
     renderPositionsAdminTable();
     populateAdminFilter();
     populateFormSelects();
+    renderJobs();
   }catch(e){
     showToast('ลบไม่สำเร็จ กรุณาลองใหม่', true);
   }
@@ -1355,6 +1357,7 @@ document.getElementById('posImportFile').addEventListener('change', async (e) =>
     renderPositionsAdminTable();
     populateAdminFilter();
     populateFormSelects();
+    renderJobs();
   }catch(err){
     showToast('นำเข้าไฟล์ไม่สำเร็จ ตรวจสอบรูปแบบไฟล์', true);
   }finally{
@@ -1420,6 +1423,9 @@ document.getElementById('branchSaveBtn').addEventListener('click', async () => {
     await loadAllContentData();
     renderBranchesAdminTable();
     populateFormSelects();
+    renderProvinceChips();
+    renderBranchFilter();
+    renderBranchList(null);
   }catch(e){
     showToast('บันทึกไม่สำเร็จ กรุณาลองใหม่', true);
   }
@@ -1432,6 +1438,9 @@ async function deleteBranchRow(id){
     await loadAllContentData();
     renderBranchesAdminTable();
     populateFormSelects();
+    renderProvinceChips();
+    renderBranchFilter();
+    renderBranchList(null);
   }catch(e){
     showToast('ลบไม่สำเร็จ กรุณาลองใหม่', true);
   }
@@ -1457,6 +1466,9 @@ document.getElementById('branchImportFile').addEventListener('change', async (e)
     await loadAllContentData();
     renderBranchesAdminTable();
     populateFormSelects();
+    renderProvinceChips();
+    renderBranchFilter();
+    renderBranchList(null);
   }catch(err){
     showToast('นำเข้าไฟล์ไม่สำเร็จ ตรวจสอบรูปแบบไฟล์', true);
   }finally{
@@ -1512,6 +1524,7 @@ document.getElementById('benSaveBtn').addEventListener('click', async () => {
     document.getElementById('benForm').hidden = true;
     await loadAllContentData();
     renderBenefitsAdminTable();
+    renderBenefits();
   }catch(e){
     showToast('บันทึกไม่สำเร็จ กรุณาลองใหม่', true);
   }
@@ -1523,6 +1536,7 @@ async function deleteBenefitRow(id){
     showToast('ลบสวัสดิการแล้ว');
     await loadAllContentData();
     renderBenefitsAdminTable();
+    renderBenefits();
   }catch(e){
     showToast('ลบไม่สำเร็จ กรุณาลองใหม่', true);
   }
